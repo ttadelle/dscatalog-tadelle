@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tadelle.dscatalog.dto.RoleDTO;
 import com.tadelle.dscatalog.dto.UserDTO;
 import com.tadelle.dscatalog.dto.UserInsertDTO;
+import com.tadelle.dscatalog.dto.UserUpdateDTO;
 import com.tadelle.dscatalog.entities.Role;
 import com.tadelle.dscatalog.entities.User;
 import com.tadelle.dscatalog.repositories.RoleRepository;
@@ -36,9 +37,9 @@ public class UserService {
 	private RoleRepository roleRepository;
 	
 	@Transactional(readOnly = true)
-	public Page<UserDTO> findAll(Pageable pageable) {
+	public Page<UserDTO> findAllPaged(Pageable pageable) {
 		Page<User> list = repository.findAll(pageable); 
-		return list.map(x -> new UserDTO(x));
+		return list.map(x -> (new UserDTO(x)));
 	}
 	
 	@Transactional(readOnly=true)
@@ -58,7 +59,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public UserDTO update(Long id,UserDTO dto) {
+	public UserDTO update(Long id,UserUpdateDTO dto) {
 		try {
 			User entity = repository.getOne(id);
 			
